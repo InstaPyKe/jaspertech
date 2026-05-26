@@ -1009,7 +1009,7 @@
                         <select>
                             <option>General Inquiry</option>
                             <option>Security Audit</option>
-                            <option>Web Development</option>
+                            <option>Want to hire Me</option>
                             <option>Networking Project</option>
                         </select>
                         <textarea rows="5" placeholder="Your Message"></textarea>
@@ -1336,6 +1336,7 @@
         // 11. Anti-Copy and Anti-Inspect Logic
         const securityAlert = document.getElementById('securityAlert');
         const securityAudio = document.getElementById('securityAudio');
+        let securityTimeout;
 
         const triggerWarning = () => {
             if (securityAudio) {
@@ -1343,13 +1344,17 @@
                 securityAudio.play().catch(() => { /* Browsers may block audio until first user interaction */ });
             }
             securityAlert.classList.add('show');
-            setTimeout(() => securityAlert.classList.remove('show'), 3000);
+            clearTimeout(securityTimeout);
+            securityTimeout = setTimeout(() => securityAlert.classList.remove('show'), 3000);
         };
 
         // Disable right-click context menu
         document.addEventListener('contextmenu', (e) => {
             e.preventDefault();
-            triggerWarning();
+            // Suppress visual/audio warning on mobile/touch devices to prevent accidental triggers
+            if (!window.matchMedia("(pointer: coarse)").matches) {
+                triggerWarning();
+            }
         });
 
         // Disable common developer tool keyboard shortcuts
