@@ -759,30 +759,6 @@
             .cookie-banner { flex-direction: column; text-align: center; gap: 15px; width: 95%; }
             .cookie-content p { margin-right: 0; }
         }
-
-        /* --- Security Warning Alert --- */
-        .security-alert {
-            position: fixed;
-            top: 100px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-150%);
-            background: rgba(255, 77, 77, 0.05);
-            backdrop-filter: var(--glass-blur);
-            border: 1px solid rgba(255, 77, 77, 0.3);
-            padding: 15px 25px;
-            border-radius: 12px;
-            color: #ff4d4d;
-            font-size: 0.9rem;
-            font-weight: 600;
-            z-index: 9999;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: var(--neon-shadow);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            pointer-events: none;
-        }
-        .security-alert.show { transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
@@ -1042,14 +1018,6 @@
         </div>
         <button id="acceptCookies" class="btn btn-blue" style="padding: 10px 24px; font-size: 0.85rem; margin: 0; white-space: nowrap;">Accept Cookies</button>
     </div>
-
-    <div class="security-alert" id="securityAlert">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <span>Security Policy: Content inspection and right-click are disabled.</span>
-    </div>
-
-    <!-- Hidden audio element for security alert sound -->
-    <audio id="securityAudio" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
     <script>
         // 1. Reveal on Scroll Logic (Top-to-Bottom Bouncing)
@@ -1334,27 +1302,9 @@
         }
 
         // 11. Anti-Copy and Anti-Inspect Logic
-        const securityAlert = document.getElementById('securityAlert');
-        const securityAudio = document.getElementById('securityAudio');
-        let securityTimeout;
-
-        const triggerWarning = () => {
-            if (securityAudio) {
-                securityAudio.currentTime = 0; // Rewind to start if already playing
-                securityAudio.play().catch(() => { /* Browsers may block audio until first user interaction */ });
-            }
-            securityAlert.classList.add('show');
-            clearTimeout(securityTimeout);
-            securityTimeout = setTimeout(() => securityAlert.classList.remove('show'), 3000);
-        };
-
         // Disable right-click context menu
         document.addEventListener('contextmenu', (e) => {
             e.preventDefault();
-            // Suppress visual/audio warning on mobile/touch devices to prevent accidental triggers
-            if (!window.matchMedia("(pointer: coarse)").matches) {
-                triggerWarning();
-            }
         });
 
         // Disable common developer tool keyboard shortcuts
@@ -1362,25 +1312,21 @@
             // Disable F12
             if (e.keyCode === 123) {
                 e.preventDefault();
-                triggerWarning();
                 return false;
             }
             // Disable Ctrl+Shift+I (Inspect), Ctrl+Shift+J (Console), Ctrl+Shift+C (Element Select)
             if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
                 e.preventDefault();
-                triggerWarning();
                 return false;
             }
             // Disable Ctrl+U (View Source)
             if (e.ctrlKey && e.keyCode === 85) {
                 e.preventDefault();
-                triggerWarning();
                 return false;
             }
             // Disable Ctrl+S (Save Page) and Ctrl+P (Print)
             if (e.ctrlKey && (e.keyCode === 83 || e.keyCode === 80)) {
                 e.preventDefault();
-                triggerWarning();
                 return false;
             }
         });
