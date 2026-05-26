@@ -1048,6 +1048,9 @@
         <span>Security Policy: Content inspection and right-click are disabled.</span>
     </div>
 
+    <!-- Hidden audio element for security alert sound -->
+    <audio id="securityAudio" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+
     <script>
         // 1. Reveal on Scroll Logic (Top-to-Bottom Bouncing)
         const observerOptions = { threshold: 0.1 };
@@ -1332,7 +1335,13 @@
 
         // 11. Anti-Copy and Anti-Inspect Logic
         const securityAlert = document.getElementById('securityAlert');
+        const securityAudio = document.getElementById('securityAudio');
+
         const triggerWarning = () => {
+            if (securityAudio) {
+                securityAudio.currentTime = 0; // Rewind to start if already playing
+                securityAudio.play().catch(() => { /* Browsers may block audio until first user interaction */ });
+            }
             securityAlert.classList.add('show');
             setTimeout(() => securityAlert.classList.remove('show'), 3000);
         };
