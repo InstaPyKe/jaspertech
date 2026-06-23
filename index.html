@@ -1457,16 +1457,16 @@ Type 'help' to view available operations.
                     <p style="opacity: 0.6; font-size: 1.1rem;">A curated archive of secure application code and network operations tools.</p>
                 </div>
                 <div class="projects-filter">
-                    <button class="filter-btn active" data-filter="all">All Specs</button>
-                    <button class="filter-btn" data-filter="security">Security</button>
-                    <button class="filter-btn" data-filter="development">Development</button>
-                    <button class="filter-btn" data-filter="devsecops">DevSecOps</button>
+                    <button class="filter-btn active" data-filter="all">All Projects</button>
+                    <button class="filter-btn" data-filter="current">Current</button>
+                    <button class="filter-btn" data-filter="completed">Completed</button>
+                    <button class="filter-btn" data-filter="upcoming">Upcoming</button>
                 </div>
             </div>
 
             <div class="projects-grid" id="projectsGrid">
-                <!-- Project 1: Fintech API -->
-                <div class="project-card" data-category="development">
+                <!-- Project 1 (Current): Fintech API -->
+                <div class="project-card" data-category="current">
                     <div>
                         <div class="project-tags">
                             <span class="project-tag">Go</span>
@@ -1487,12 +1487,38 @@ Type 'help' to view available operations.
                                 <span>Response Latency</span>
                             </div>
                         </div>
-                        <button class="project-detail-btn" onclick="openProjectModal('fintech-api')">View Security Spec &rarr;</button>
+                        <button class="project-detail-btn" onclick="openProjectModal('fintech-api')">View Specs &rarr;</button>
                     </div>
                 </div>
 
-                <!-- Project 2: Vuln Scanner -->
-                <div class="project-card" data-category="security">
+                <!-- Project 2 (Current): Zero-Trust Intrusion Shield -->
+                <div class="project-card" data-category="current">
+                    <div>
+                        <div class="project-tags">
+                            <span class="project-tag">Rust</span>
+                            <span class="project-tag">eBPF</span>
+                            <span class="project-tag">Linux</span>
+                        </div>
+                        <h3>Zero-Trust Intrusion Shield</h3>
+                        <p>A real-time containerized host security auditor built in Rust using eBPF to monitor syscall anomalies and detect lateral movements instantly.</p>
+                    </div>
+                    <div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <strong>&lt; 1.5%</strong>
+                                <span>Kernel Overhead</span>
+                            </div>
+                            <div class="metric">
+                                <strong>Instant</strong>
+                                <span>Real-time Alerts</span>
+                            </div>
+                        </div>
+                        <button class="project-detail-btn" onclick="openProjectModal('intrusion-shield')">View Specs &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Project 3 (Completed): Vuln Scanner -->
+                <div class="project-card" data-category="completed">
                     <div>
                         <div class="project-tags">
                             <span class="project-tag">Python</span>
@@ -1513,12 +1539,12 @@ Type 'help' to view available operations.
                                 <span>Core Targets Covered</span>
                             </div>
                         </div>
-                        <button class="project-detail-btn" onclick="openProjectModal('vuln-scanner')">View Security Spec &rarr;</button>
+                        <button class="project-detail-btn" onclick="openProjectModal('vuln-scanner')">View Specs &rarr;</button>
                     </div>
                 </div>
 
-                <!-- Project 3: Cloud DevSecOps -->
-                <div class="project-card" data-category="devsecops">
+                <!-- Project 4 (Completed): Cloud DevSecOps -->
+                <div class="project-card" data-category="completed">
                     <div>
                         <div class="project-tags">
                             <span class="project-tag">Terraform</span>
@@ -1539,7 +1565,59 @@ Type 'help' to view available operations.
                                 <span>Compliance Level</span>
                             </div>
                         </div>
-                        <button class="project-detail-btn" onclick="openProjectModal('devsecops-pipeline')">View Security Spec &rarr;</button>
+                        <button class="project-detail-btn" onclick="openProjectModal('devsecops-pipeline')">View Specs &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Project 5 (Upcoming): AI Threat Intelligence Agent -->
+                <div class="project-card" data-category="upcoming">
+                    <div>
+                        <div class="project-tags">
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">PyTorch</span>
+                            <span class="project-tag">LLM</span>
+                        </div>
+                        <h3>AI Threat Intelligence Agent</h3>
+                        <p>An autonomous agent designed to ingest raw network/application logs, correlate alerts using fine-tuned models, and execute auto-remediation scripts.</p>
+                    </div>
+                    <div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <strong>50k /s</strong>
+                                <span>Log Parsing Rate</span>
+                            </div>
+                            <div class="metric">
+                                <strong>Prototype</strong>
+                                <span>Development Phase</span>
+                            </div>
+                        </div>
+                        <button class="project-detail-btn" onclick="openProjectModal('ai-threat-agent')">View Specs &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Project 6 (Upcoming): Decentralized Identity Auth -->
+                <div class="project-card" data-category="upcoming">
+                    <div>
+                        <div class="project-tags">
+                            <span class="project-tag">TypeScript</span>
+                            <span class="project-tag">WebAuthn</span>
+                            <span class="project-tag">FIDO2</span>
+                        </div>
+                        <h3>Decentralized Identity Auth</h3>
+                        <p>A passwordless authentication system using FIDO2 credentials and biometric passkeys to eliminate credential-stuffing and phishing vectors.</p>
+                    </div>
+                    <div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <strong>Hardware</strong>
+                                <span>Backed Security</span>
+                            </div>
+                            <div class="metric">
+                                <strong>Design</strong>
+                                <span>Architecture Phase</span>
+                            </div>
+                        </div>
+                        <button class="project-detail-btn" onclick="openProjectModal('decentralized-auth')">View Specs &rarr;</button>
                     </div>
                 </div>
             </div>
@@ -2195,14 +2273,14 @@ Network / Cloud [████████████████░░░░] 8
         // Project Spec Modal and Data
         const projectSpecs = {
             'fintech-api': {
-                category: 'Development / Security Gateway',
+                category: 'Current / Security Gateway',
                 title: 'Hyper-Secure Fintech API',
                 html: `
                     <p>Designed a high-throughput, secure API gateway that coordinates financial transactions between internal ledger databases and third-party vendors. The system is built entirely in <strong>Go</strong> to maximize request concurrency and minimize processing times.</p>
                     <h4>Key Architectural Controls</h4>
                     <ul>
                         <li><strong>Mutual TLS (mTLS):</strong> Enforces strict client certificate validation at the connection layer to prevent unauthorized client access.</li>
-                        <li><strong>Token-Based Authorization:</strong> Integrated JWT access keys with granular OAuth2-like scope scopes, verifying permissions on a per-endpoint basis.</li>
+                        <li><strong>Token-Based Authorization:</strong> Integrated JWT access keys with granular OAuth2-like scopes, verifying permissions on a per-endpoint basis.</li>
                         <li><strong>AES-GCM Encryption:</strong> Sensitive cardholder data is encrypted prior to database insertion using 256-bit AES-GCM with envelope key rotation keys.</li>
                         <li><strong>Rate-Limiting Shields:</strong> Redis-backed sliding window rate limiters protect the database from layer-7 denial-of-service (DDoS) attempts.</li>
                     </ul>
@@ -2213,8 +2291,26 @@ Network / Cloud [████████████████░░░░] 8
                     </ul>
                 `
             },
+            'intrusion-shield': {
+                category: 'Current / Threat Detection',
+                title: 'Zero-Trust Intrusion Shield',
+                html: `
+                    <p>Building an advanced real-time host-level intrusion detection and syscall auditing engine for Kubernetes container environments. Written in <strong>Rust</strong> for high performance and strict type safety.</p>
+                    <h4>Technical Architecture</h4>
+                    <ul>
+                        <li><strong>eBPF Kernel Probes:</strong> Hooks into the Linux kernel tracepoints to record filesystem access, network sockets initialization, and execution commands directly.</li>
+                        <li><strong>Anomaly Detection Engine:</strong> Correlates syscall logs against a baseline zero-trust manifest, raising high-priority alerts on unexpected binary executions or lateral privilege escalations.</li>
+                        <li><strong>Lightweight Resource Footprint:</strong> Designed to process kernel events efficiently with minimum cpu overhead (under 1.5% overhead per host node).</li>
+                    </ul>
+                    <h4>Current Project Status</h4>
+                    <ul>
+                        <li>Completed the core eBPF tracepoint probe module.</li>
+                        <li>Currently testing user-space alerting daemon integration and visual dashboard panels.</li>
+                    </ul>
+                `
+            },
             'vuln-scanner': {
-                category: 'Security / Penetration Testing',
+                category: 'Completed / Penetration Testing',
                 title: 'Automated Vulnerability Scanner',
                 html: `
                     <p>Developed a high-performance vulnerability auditing tool in <strong>Python</strong>. Built to run reconnaissance routines and perform initial threat modeling sweeps for networked environments.</p>
@@ -2232,7 +2328,7 @@ Network / Cloud [████████████████░░░░] 8
                 `
             },
             'devsecops-pipeline': {
-                category: 'DevSecOps / Cloud Infrastructure',
+                category: 'Completed / Cloud Infrastructure',
                 title: 'Secure DevSecOps Pipeline',
                 html: `
                     <p>Designed and built a secure continuous integration and delivery pipeline, deploying a microservices architecture to AWS EKS using Infrastructure as Code (IaC).</p>
@@ -2246,6 +2342,40 @@ Network / Cloud [████████████████░░░░] 8
                     <ul>
                         <li>Enforced Zero-Trust cluster networking using Calico CNI policies.</li>
                         <li>Achieved full SOC2 and ISO 27001 compliance standards for automated build structures.</li>
+                    </ul>
+                `
+            },
+            'ai-threat-agent': {
+                category: 'Upcoming / AI Security Operations',
+                title: 'AI Threat Intelligence Agent',
+                html: `
+                    <p>Designing an autonomous SecOps agent utilizing fine-tuned Large Language Models to analyze massive streams of system and application logs and execute auto-remediation scripts.</p>
+                    <h4>Planned Capabilities</h4>
+                    <ul>
+                        <li><strong>Log Correlation Suite:</strong> Integrates with elastic or splunk endpoints to parse millions of rows of data, matching pattern variations across multiple microservices.</li>
+                        <li><strong>Auto-Mitigation Scripts:</strong> Automatically creates system blocklists, updates Cloudflare WAF configurations, or quarantines pods in response to active DDoS or API penetration threats.</li>
+                        <li><strong>Natural Language Queries:</strong> Allows security engineers to type queries like <em>"Show me all alerts resembling lateral brute-force from the past hour"</em> to obtain automated analysis.</li>
+                    </ul>
+                    <h4>Project Status</h4>
+                    <ul>
+                        <li>Currently in the model training and logic modeling phase.</li>
+                    </ul>
+                `
+            },
+            'decentralized-auth': {
+                category: 'Upcoming / Cryptographic Access Control',
+                title: 'Decentralized Identity Auth',
+                html: `
+                    <p>Architecting a passwordless authentication service built on the <strong>FIDO2 WebAuthn</strong> specification, eliminating central database password leaks and phishing vectors.</p>
+                    <h4>Architectural Framework</h4>
+                    <ul>
+                        <li><strong>Biometric Passkey Validation:</strong> Enables users to register their client machines using facial scans, fingerprints, or local PIN keys.</li>
+                        <li><strong>Public-Key Cryptography:</strong> The server stores only public keys; private keys remain secure on users' hardware enclaves (TPM / Secure Enclaves).</li>
+                        <li><strong>Federated Identity Support:</strong> Built to serve as an OIDC (OpenID Connect) authentication provider for third-party client integrations.</li>
+                    </ul>
+                    <h4>Project Status</h4>
+                    <ul>
+                        <li>System architecture specs are drafted. Preparing initial backend prototype using Node.js and TypeScript.</li>
                     </ul>
                 `
             }
