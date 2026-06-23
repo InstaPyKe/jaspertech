@@ -40,6 +40,11 @@
     }
     </script>
 
+    <!-- Google Fonts Imports -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --primary-blue: #0070f3;
@@ -47,24 +52,20 @@
             --primary-yellow: #ffd700;
             --primary-purple: #a855f7;
             --text-light: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-blur: blur(15px);
-            /* Unique Shadow Border */
-            --neon-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(255,255,255,0.05);
+            --glass-bg: rgba(10, 15, 30, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(12px);
+            --font-primary: 'Outfit', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --neon-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 234, 135, 0.05);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-primary);
             scroll-behavior: smooth;
-            /* Disable text selection across the site */
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
         }
 
         body {
@@ -170,7 +171,7 @@
         .nav-item a:hover { color: var(--primary-blue); }
 
         /* Desktop Animated Underline */
-        @media (min-width: 551px) {
+        @media (min-width: 769px) {
             .nav-links > .nav-item > a::after {
                 content: '';
                 position: absolute;
@@ -396,11 +397,20 @@
         /* --- Hero Section --- */
         .main-container { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
         
+        @keyframes movingGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .hero { 
             display: grid; 
             grid-template-columns: 1.2fr 1fr; 
             gap: 40px; 
             align-items: center; 
+            background: linear-gradient(-45deg, rgba(0, 112, 243, 0.15), rgba(0, 234, 135, 0.15), rgba(168, 85, 247, 0.15)) !important;
+            background-size: 400% 400% !important;
+            animation: movingGradient 15s ease infinite !important;
         }
         .hero h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; }
         .btn { 
@@ -543,30 +553,36 @@
 
         @media (max-width: 768px) {
             .hero, .contact-container { grid-template-columns: 1fr; }
-        }
 
-        @media (max-width: 550px) {
             .hamburger { display: flex; }
             .nav-links {
                 position: fixed;
                 top: 0;
                 right: -100%;
-                width: 100%;
+                width: min(300px, 100%);
                 height: 100vh;
-                background: rgba(10, 12, 20, 0.8);
-                backdrop-filter: blur(20px);
+                background: rgba(10, 12, 20, 0.95);
+                backdrop-filter: blur(25px);
                 flex-direction: column;
-                justify-content: flex-start; /* Ensures content starts from the top for better scroll reach */
-                align-items: center;
-                gap: 15px;
-                padding: 100px 20px; /* Added padding to prevent content from being cut off by the header area */
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 90px 30px 40px 30px;
                 transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 z-index: 1050;
                 border-left: 1px solid var(--glass-border);
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
                 overflow-y: auto;
             }
             .nav-links.active { right: 0; }
-            .nav-item a { font-size: 1.1rem; padding: 10px 0; }
+            .nav-item { width: 100%; }
+            .nav-item a { 
+                font-size: 1.05rem; 
+                padding: 12px 0; 
+                width: 100%;
+                text-align: left;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            }
             
             /* Staggered Fade-in Animation for Mobile Links */
             .nav-item {
@@ -580,7 +596,6 @@
                 transform: translateX(0);
             }
 
-            /* Entrance delays for each item */
             .nav-links.active .nav-item:nth-child(1) { transition-delay: 0.1s; }
             .nav-links.active .nav-item:nth-child(2) { transition-delay: 0.2s; }
             .nav-links.active .nav-item:nth-child(3) { transition-delay: 0.3s; }
@@ -600,23 +615,22 @@
                 width: 100%;
                 background: transparent;
                 border: none;
-                text-align: center;
+                text-align: left;
                 transform: none;
-                max-height: 0; /* Initial state: collapsed */
+                max-height: 0;
                 overflow: hidden;
                 transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
-                padding: 0 0 0 20px; /* Keep left padding for nested links */
+                padding: 0;
             }
 
             /* State when dropdown is active on mobile */
             .nav-item.mobile-active .dropdown {
                 max-height: 400px;
-                padding: 15px 0;
-                background: rgba(3, 5, 10, 0.9); /* Darker background for sharp text clarity */
-                backdrop-filter: blur(8px);
+                padding: 10px 15px;
+                background: rgba(255, 255, 255, 0.02);
                 border: 1px solid var(--glass-border);
-                border-radius: 12px;
-                margin: 10px 20px;
+                border-radius: 8px;
+                margin: 5px 0 15px 0;
             }
 
             .nav-item.mobile-active .arrow {
@@ -628,6 +642,8 @@
                 opacity: 0;
                 transform: translateY(-10px);
                 transition: opacity 0.3s ease, transform 0.3s ease;
+                border-bottom: none;
+                padding: 8px 0;
             }
 
             .nav-item.mobile-active .dropdown a {
@@ -635,12 +651,12 @@
                 transform: translateY(0);
             }
 
-            .nav-item.mobile-active .dropdown a:nth-child(1) { transition-delay: 0.1s; }
-            .nav-item.mobile-active .dropdown a:nth-child(2) { transition-delay: 0.15s; }
-            .nav-item.mobile-active .dropdown a:nth-child(3) { transition-delay: 0.2s; }
-            .nav-item.mobile-active .dropdown a:nth-child(4) { transition-delay: 0.25s; }
+            .nav-item.mobile-active .dropdown a:nth-child(1) { transition-delay: 0.05s; }
+            .nav-item.mobile-active .dropdown a:nth-child(2) { transition-delay: 0.1s; }
+            .nav-item.mobile-active .dropdown a:nth-child(3) { transition-delay: 0.15s; }
+            .nav-item.mobile-active .dropdown a:nth-child(4) { transition-delay: 0.2s; }
+            .nav-item.mobile-active .dropdown a:nth-child(5) { transition-delay: 0.25s; }
 
-            /* Optimization for 180px - 400px range */
             .hero h1 {
                 font-size: clamp(1.8rem, 10vw, 2.2rem);
                 line-height: 1.2;
@@ -759,9 +775,472 @@
             .cookie-banner { flex-direction: column; text-align: center; gap: 15px; width: 95%; }
             .cookie-content p { margin-right: 0; }
         }
+
+        /* Selection Highlight */
+        ::selection {
+            background: rgba(0, 234, 135, 0.25);
+            color: #00ea87;
+        }
+
+        /* --- Custom Cursor --- */
+        #customCursor {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-green);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        #customCursorOutline {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--primary-blue);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.08s ease-out, width 0.2s, height 0.2s, border-color 0.2s;
+        }
+        .hovered-link #customCursor {
+            width: 12px;
+            height: 12px;
+            background-color: var(--primary-blue);
+        }
+        .hovered-link #customCursorOutline {
+            width: 45px;
+            height: 45px;
+            border-color: var(--primary-green);
+            border-width: 2px;
+        }
+        @media (max-width: 1024px) {
+            #customCursor, #customCursorOutline {
+                display: none !important;
+            }
+        }
+
+        /* --- Projects Grid and Filter --- */
+        .projects-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-light);
+            padding: 10px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: var(--glass-blur);
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary-blue);
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 15px rgba(0, 112, 243, 0.4);
+            transform: translateY(-2px);
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .project-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: left;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--neon-shadow);
+        }
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-green));
+            opacity: 0.8;
+        }
+        .project-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(0, 234, 135, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 234, 135, 0.1);
+        }
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+        .project-tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #8892b0;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+        }
+        .project-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: #f3f4f6;
+        }
+        .project-card p {
+            font-size: 0.95rem;
+            opacity: 0.75;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .project-metrics {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .metric {
+            display: flex;
+            flex-direction: column;
+        }
+        .metric strong {
+            font-size: 1.2rem;
+            color: var(--primary-green);
+        }
+        .metric span {
+            font-size: 0.75rem;
+            opacity: 0.5;
+            text-transform: uppercase;
+        }
+        .project-detail-btn {
+            background: transparent;
+            border: 1px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            align-self: flex-start;
+            transition: all 0.3s ease;
+        }
+        .project-detail-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+            box-shadow: 0 0 15px rgba(0, 112, 243, 0.3);
+        }
+
+        /* --- Modal Styling --- */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 5, 10, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 4000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: #0a0c16;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--neon-shadow), 0 0 40px rgba(0, 112, 243, 0.15);
+            border-radius: 24px;
+            width: 90%;
+            max-width: 650px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+            transform: scale(0.9);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            color: #8892b0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .modal-close:hover {
+            color: #fff;
+            border-color: #ff4d4d;
+            background: rgba(255, 77, 77, 0.1);
+        }
+        .modal-header {
+            margin-bottom: 25px;
+        }
+        .modal-header h3 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: white;
+            font-weight: 700;
+        }
+        .modal-body {
+            line-height: 1.7;
+            font-size: 0.95rem;
+            color: #ccd6f6;
+        }
+        .modal-body h4 {
+            color: var(--primary-green);
+            margin: 25px 0 10px 0;
+            font-size: 1.1rem;
+        }
+        .modal-body ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .modal-body li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+        .modal-body li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--primary-blue);
+        }
+
+        /* --- Terminal Console Section --- */
+        .terminal-window {
+            background: rgba(5, 8, 16, 0.85);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: var(--neon-shadow), 0 10px 30px rgba(0, 234, 135, 0.05);
+            font-family: var(--font-mono);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .terminal-window:hover {
+            box-shadow: var(--neon-shadow), 0 15px 45px rgba(0, 234, 135, 0.12);
+            border-color: rgba(0, 234, 135, 0.3);
+        }
+        .terminal-header {
+            background: rgba(10, 16, 30, 0.95);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .terminal-controls {
+            display: flex;
+            gap: 8px;
+        }
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .terminal-dot.red { background-color: #ff5f56; }
+        .terminal-dot.yellow { background-color: #ffbd2e; }
+        .terminal-dot.green { background-color: #27c93f; }
+        .terminal-title {
+            color: #8892b0;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .terminal-body {
+            padding: 25px;
+            height: 380px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #ccd6f6;
+            text-align: left;
+            scroll-behavior: smooth;
+        }
+        .terminal-output {
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+        }
+        .terminal-line {
+            margin-bottom: 6px;
+        }
+        .terminal-line.command {
+            color: #fff;
+            font-weight: bold;
+        }
+        .terminal-line.system {
+            color: #00ea87;
+        }
+        .terminal-line.error {
+            color: #ff4d4d;
+        }
+        .terminal-line.info {
+            color: #0070f3;
+        }
+        .terminal-input-line {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .terminal-prompt {
+            color: var(--primary-blue);
+            margin-right: 10px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        .terminal-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        /* --- Career / Security Operations Timeline --- */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 50px auto 0 auto;
+            padding: 20px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 31px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary-blue), var(--primary-green), var(--primary-purple));
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding-left: 80px;
+            text-align: left;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-badge {
+            position: absolute;
+            left: 16px;
+            top: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #03050a;
+            border: 2px solid var(--primary-blue);
+            box-shadow: 0 0 10px rgba(0, 112, 243, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        .timeline-item:nth-child(even) .timeline-badge {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 10px rgba(0, 234, 135, 0.4);
+        }
+        .timeline-item:nth-child(3n) .timeline-badge {
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+        }
+        .timeline-badge svg {
+            width: 14px;
+            height: 14px;
+            color: #fff;
+        }
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--neon-shadow);
+            transition: all 0.3s ease;
+        }
+        .timeline-content:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(8px);
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .timeline-date {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+            font-family: var(--font-mono);
+        }
+        .timeline-item:nth-child(even) .timeline-date {
+            color: var(--primary-green);
+        }
+        .timeline-item:nth-child(3n) .timeline-date {
+            color: var(--primary-purple);
+        }
+        .timeline-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+            color: white;
+        }
+        .timeline-content p {
+            font-size: 0.9rem;
+            opacity: 0.75;
+            line-height: 1.6;
+        }
+        @media (max-width: 550px) {
+            .timeline::before {
+                left: 21px;
+            }
+            .timeline-badge {
+                left: 6px;
+            }
+            .timeline-item {
+                padding-left: 45px;
+            }
+        }
     </style>
 </head>
 <body>
+
+    <!-- Custom Cursor elements -->
+    <div id="customCursor"></div>
+    <div id="customCursorOutline"></div>
 
     <div id="scrollProgress"></div>
 
@@ -793,7 +1272,9 @@
                     <div class="dropdown">
                         <a href="#about">About Me</a>
                         <a href="#expertise">Expertise</a>
-                        <a href="#projects">Project Archives</a>
+                        <a href="#terminal">Cyber Console</a>
+                        <a href="#projects">Project Showcase</a>
+                        <a href="#timeline">Milestones</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -822,7 +1303,7 @@
                 <a href="#contact" class="btn btn-blue">Hire for Audit</a>
                 <a href="#projects" class="btn btn-outline">View Archives</a>
             </div>
-            <div style="text-align: right;" class="reveal">
+            <div style="text-align: right;" class="reveal hero-parallax">
                 <img src="uploads/jii.jpg" alt="Tech Expertise" style="border-radius: 20px; width: 100%; max-width: 450px; border: 1px solid var(--glass-border); box-shadow: var(--neon-shadow);">
             </div>
         </section>
@@ -857,6 +1338,35 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                     <h5>CEH Certified</h5>
                     <p>As a Certified Ethical Hacker, I approach security from a hacker’s perspective to stay ahead of malicious actors. This encompasses offensive tactics like reconnaissance and gaining access to identify weaknesses. Beyond offensive strategies, I am skilled in digital forensics, allowing me to investigate breaches and identify root causes. This dual capability helps clients defend systems while preparing for effective incident response.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Terminal Section -->
+        <section id="terminal" class="reveal">
+            <div style="margin-bottom: 30px;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 10px;">Interactive <span style="color: var(--primary-green);">Console</span></h2>
+                <p style="opacity: 0.6; font-size: 1.1rem;">Test the security scanner or query skills directly via the command-line interface.</p>
+            </div>
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="terminal-controls">
+                        <div class="terminal-dot red"></div>
+                        <div class="terminal-dot yellow"></div>
+                        <div class="terminal-dot green"></div>
+                    </div>
+                    <div class="terminal-title">jasper@security-console: ~</div>
+                    <div></div>
+                </div>
+                <div class="terminal-body" id="terminalBody">
+                    <div class="terminal-output" id="terminalOutput">Welcome to Jasper-Brevin Security Operations Shell v2.1.0-beta.
+Type 'help' to view available operations.
+
+</div>
+                    <div class="terminal-input-line">
+                        <span class="terminal-prompt">jasper@sec-ops:~$</span>
+                        <input type="text" class="terminal-input" id="terminalInput" autocomplete="off" spellcheck="false">
+                    </div>
                 </div>
             </div>
         </section>
@@ -941,21 +1451,153 @@
 
         <!-- Projects -->
         <section id="projects" class="reveal">
-            <h2 style="margin-bottom: 40px;">Project Showcase</h2>
-            <div style="display: flex; flex-direction: column; gap: 20px;">
-                <div style="border-left: 4px solid var(--primary-blue); padding-left: 20px;">
-                    <span style="font-size: 0.8rem; color: var(--primary-blue);">[CURRENT]</span>
-                    <h3>Hyper-Secure Fintech API</h3>
-                    <p style="opacity: 0.7;">Building a Golang-based gateway with zero-trust architecture.</p>
+            <div style="margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
+                <div>
+                    <h2 style="font-size: 2.5rem; margin-bottom: 10px;">Project <span style="color: var(--primary-blue);">Showcase</span></h2>
+                    <p style="opacity: 0.6; font-size: 1.1rem;">A curated archive of secure application code and network operations tools.</p>
                 </div>
-                <div style="border-left: 4px solid var(--primary-green); padding-left: 20px;">
-                    <span style="font-size: 0.8rem; color: var(--primary-green);">[ARCHIVED]</span>
-                    <h3>Automated Vulnerability Scanner</h3>
-                    <p style="opacity: 0.7;">Python script for network reconnaissance and port mapping.</p>
-                    <a href="#" style="color: var(--primary-green); font-size: 0.8rem; margin-top: 10px;">Read Documentation &rarr;</a>
+                <div class="projects-filter">
+                    <button class="filter-btn active" data-filter="all">All Specs</button>
+                    <button class="filter-btn" data-filter="security">Security</button>
+                    <button class="filter-btn" data-filter="development">Development</button>
+                    <button class="filter-btn" data-filter="devsecops">DevSecOps</button>
+                </div>
+            </div>
+
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Project 1: Fintech API -->
+                <div class="project-card" data-category="development">
+                    <div>
+                        <div class="project-tags">
+                            <span class="project-tag">Go</span>
+                            <span class="project-tag">Zero-Trust</span>
+                            <span class="project-tag">gRPC</span>
+                        </div>
+                        <h3>Hyper-Secure Fintech API</h3>
+                        <p>A high-performance payment gateway built in Go, designed with strict zero-trust parameters, JWT access scopes, and database AES-GCM encryption.</p>
+                    </div>
+                    <div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <strong>99.99%</strong>
+                                <span>Uptime Achieved</span>
+                            </div>
+                            <div class="metric">
+                                <strong>&lt; 12ms</strong>
+                                <span>Response Latency</span>
+                            </div>
+                        </div>
+                        <button class="project-detail-btn" onclick="openProjectModal('fintech-api')">View Security Spec &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Project 2: Vuln Scanner -->
+                <div class="project-card" data-category="security">
+                    <div>
+                        <div class="project-tags">
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">Socket</span>
+                            <span class="project-tag">OWASP</span>
+                        </div>
+                        <h3>Automated Vulnerability Scanner</h3>
+                        <p>An elite reconnaissance tool that scans ranges of IP addresses, maps open ports, identifies running services, and checks for common CVE vulnerabilities.</p>
+                    </div>
+                    <div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <strong>500+ /s</strong>
+                                <span>Scan Thread Rate</span>
+                            </div>
+                            <div class="metric">
+                                <strong>OWASP 10</strong>
+                                <span>Core Targets Covered</span>
+                            </div>
+                        </div>
+                        <button class="project-detail-btn" onclick="openProjectModal('vuln-scanner')">View Security Spec &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Project 3: Cloud DevSecOps -->
+                <div class="project-card" data-category="devsecops">
+                    <div>
+                        <div class="project-tags">
+                            <span class="project-tag">Terraform</span>
+                            <span class="project-tag">Kubernetes</span>
+                            <span class="project-tag">SAST/DAST</span>
+                        </div>
+                        <h3>Secure DevSecOps Pipeline</h3>
+                        <p>Infrastructure as Code setup deploying a microservices cluster in AWS EKS. Features automated image signing, SonarQube quality gates, and Trivy CVE scanning.</p>
+                    </div>
+                    <div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <strong>Zero</strong>
+                                <span>Production Leaks</span>
+                            </div>
+                            <div class="metric">
+                                <strong>ISO 27001</strong>
+                                <span>Compliance Level</span>
+                            </div>
+                        </div>
+                        <button class="project-detail-btn" onclick="openProjectModal('devsecops-pipeline')">View Security Spec &rarr;</button>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- Career & Operations Timeline -->
+        <section id="timeline" class="reveal">
+            <div style="margin-bottom: 50px; text-align: center;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 10px;">Career & Operations <span style="color: var(--primary-purple);">Milestones</span></h2>
+                <p style="opacity: 0.6; font-size: 1.1rem;">Key achievements in software engineering and security operations.</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025 - Present</div>
+                        <h3>Lead DevSecOps Architect</h3>
+                        <p>Leading cloud security architecture and DevSecOps integrations for enterprise banking clients. Architected zero-trust networks preventing lateral threat escalations.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/></svg>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2024</div>
+                        <h3>CEH Certified Ethical Hacker</h3>
+                        <p>Formally certified by the EC-Council. Specialized in offensive security operations, penetration testing, active reconnaissance, and malware analysis.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/></svg>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2023</div>
+                        <h3>Full-Stack Security Engineer</h3>
+                        <p>Developed core backend microservices in Go and Java. Oversaw threat-modeling processes and resolved security flaws reported during third-party audits.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Spec Modal -->
+        <div class="modal" id="projectModal">
+            <div class="modal-content">
+                <button class="modal-close" id="modalCloseBtn">&times;</button>
+                <div class="modal-header">
+                    <span id="modalProjectCategory" style="font-size: 0.8rem; color: var(--primary-blue); font-family: var(--font-mono); text-transform: uppercase;">[Development]</span>
+                    <h3 id="modalProjectTitle">Project Title</h3>
+                </div>
+                <div class="modal-body" id="modalProjectBody">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
 
         <!-- Contact -->
         <section id="contact" class="reveal">
@@ -1032,33 +1674,108 @@
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // 2. Physics Canvas (Same as Waa Ads for visual continuity)
+        // 2. Interactive Cybernetic Network Node Particles
         const canvas = document.getElementById('balloon-canvas');
         const ctx = canvas.getContext('2d');
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize); resize();
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        
+        let activeNodes = window.innerWidth < 768 ? 30 : 70;
+        let nodes = [];
+        let mouse = { x: null, y: null, radius: 140 };
 
-        const colors = ['rgba(0,112,243,0.08)', 'rgba(0,234,135,0.08)', 'rgba(255,215,0,0.08)'];
-        const balloons = Array.from({ length: 25 }, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 1.5,
-            vy: (Math.random() - 0.5) * 1.5,
-            r: 60,
-            color: colors[Math.floor(Math.random() * colors.length)]
-        }));
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initNodes();
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        window.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        class Node {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.8;
+                this.vy = (Math.random() - 0.5) * 0.8;
+                this.radius = Math.random() * 2 + 1;
+                const rand = Math.random();
+                if (rand < 0.33) this.color = 'rgba(0, 112, 243, 0.3)'; // Blue
+                else if (rand < 0.66) this.color = 'rgba(0, 234, 135, 0.3)'; // Green
+                else this.color = 'rgba(168, 85, 247, 0.3)'; // Purple
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                if (mouse.x !== null && mouse.y !== null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < mouse.radius) {
+                        let force = (mouse.radius - dist) / mouse.radius;
+                        this.x -= (dx / dist) * force * 1.5;
+                        this.y -= (dy / dist) * force * 1.5;
+                    }
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        function initNodes() {
+            nodes = [];
+            activeNodes = window.innerWidth < 768 ? 30 : 70;
+            for (let i = 0; i < activeNodes; i++) {
+                nodes.push(new Node());
+            }
+        }
 
         function animate() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            balloons.forEach(b => {
-                b.x += b.vx; b.y += b.vy;
-                if (b.x < 0 || b.x > canvas.width) b.vx *= -1;
-                if (b.y < 0 || b.y > canvas.height) b.vy *= -1;
-                ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
-                ctx.fillStyle = b.color; ctx.fill();
+            ctx.clearRect(0, 0, width, height);
+            
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    let dx = nodes[i].x - nodes[j].x;
+                    let dy = nodes[i].y - nodes[j].y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    
+                    if (dist < 120) {
+                        let alpha = ((120 - dist) / 120) * 0.12;
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.strokeStyle = `rgba(0, 234, 135, ${alpha})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            nodes.forEach(node => {
+                node.update();
+                node.draw();
             });
+
             requestAnimationFrame(animate);
         }
+
+        initNodes();
         animate();
 
         // 3. Form Handling Logic
@@ -1069,7 +1786,6 @@
         if (contactForm && successMessage) {
             contactForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                // Simulation of form processing
                 contactForm.style.opacity = '0';
                 contactForm.style.pointerEvents = 'none';
                 successMessage.classList.add('active');
@@ -1087,8 +1803,7 @@
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
         const navOverlay = document.getElementById('navOverlay');
-        const navItems = document.querySelectorAll('.nav-item'); // Get all nav items
-
+        const navItems = document.querySelectorAll('.nav-item');
 
         const toggleMenu = () => {
             hamburger.classList.toggle('active');
@@ -1102,7 +1817,6 @@
             navLinks.classList.remove('active');
             navOverlay.classList.remove('active');
             document.body.classList.remove('no-scroll');
-            // Also close any open mobile dropdowns when the main menu closes
             navItems.forEach(item => item.classList.remove('mobile-active'));
         };
 
@@ -1111,19 +1825,20 @@
             navOverlay.addEventListener('click', closeMenu);
             
             navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', closeMenu);
+                const hasDropdown = link.nextElementSibling && link.nextElementSibling.classList.contains('dropdown');
+                if (!hasDropdown) {
+                    link.addEventListener('click', closeMenu);
+                }
             });
 
-            // Handle mobile dropdown toggling
             navItems.forEach(item => {
                 const trigger = item.querySelector('a');
                 const dropdown = item.querySelector('.dropdown');
 
-                if (dropdown) { // Only add listener if there's a dropdown
+                if (dropdown) {
                     trigger.addEventListener('click', (e) => {
-                        // Check if it's a mobile view and the main menu is active
-                        if (window.innerWidth <= 550 && navLinks.classList.contains('active')) {
-                            e.preventDefault(); // Prevent default link behavior for dropdown toggles
+                        if (window.innerWidth <= 768 && navLinks.classList.contains('active')) {
+                            e.preventDefault();
                             item.classList.toggle('mobile-active');
                         }
                     });
@@ -1137,14 +1852,12 @@
         const navbar = document.querySelector('.navbar');
 
         window.addEventListener('scroll', () => {
-            // Navbar scroll effect
             if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
 
-            // Back to top visibility
             if (window.scrollY > heroSection.offsetHeight) {
                 backToTopBtn.classList.add('show');
             } else {
@@ -1190,12 +1903,12 @@
             let delta = deleting ? 50 : 100;
 
             if (!deleting && charIdx === currentRole.length) {
-                delta = 2000; // Pause at end of word
+                delta = 2000;
                 deleting = true;
             } else if (deleting && charIdx === 0) {
                 deleting = false;
                 roleIdx = (roleIdx + 1) % roles.length;
-                delta = 500; // Pause before next word
+                delta = 500;
             }
 
             setTimeout(performTyping, delta);
@@ -1222,20 +1935,31 @@
         ];
 
         function updateSystemStatus() {
-            // Simulate status change, or fetch from an API in a real application
             const randomStatus = systemStatuses[Math.floor(Math.random() * systemStatuses.length)];
             systemStatusElement.textContent = `Status: ${randomStatus.text}`;
             systemStatusElement.style.color = randomStatus.color;
         }
 
         if (currentTimeElement) {
-            updateCurrentTime(); // Initial call
-            setInterval(updateCurrentTime, 1000); // Update every second
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 1000);
         }
 
         if (systemStatusElement) {
-            updateSystemStatus(); // Initial call
-            setInterval(updateSystemStatus, 10000); // Update every 10 seconds
+            updateSystemStatus();
+            setInterval(updateSystemStatus, 10000);
+        }
+
+        // 12. Subtle Hero Parallax Effect
+        const heroParallax = document.querySelector('.hero-parallax');
+        if (heroParallax) {
+            window.addEventListener('scroll', () => {
+                if (window.innerWidth > 992) {
+                    const scrolled = window.scrollY;
+                    heroParallax.style.transition = 'opacity 0.8s ease, transform 0.1s ease-out';
+                    heroParallax.style.transform = `translateY(${scrolled * 0.12}px)`;
+                }
+            }, { passive: true });
         }
 
         // 9. Cookie Consent Logic
@@ -1243,11 +1967,8 @@
         const acceptCookiesBtn = document.getElementById('acceptCookies');
 
         if (cookieBanner && acceptCookiesBtn) {
-            // Check if user has already accepted
             const cookiesAccepted = localStorage.getItem('cookiesAccepted');
-            
             if (!cookiesAccepted) {
-                // Show banner after 2 seconds delay
                 setTimeout(() => {
                     cookieBanner.classList.add('show');
                 }, 2000);
@@ -1301,35 +2022,264 @@
             window.addEventListener('resize', updateCarousel);
         }
 
-        // 11. Anti-Copy and Anti-Inspect Logic
-        // Disable right-click context menu
-        document.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
+        // --- NEW FEATURES SCRIPTS ---
+
+        // Custom Cursor Logic
+        const cursor = document.getElementById('customCursor');
+        const cursorOutline = document.getElementById('customCursorOutline');
+
+        if (cursor && cursorOutline) {
+            window.addEventListener('mousemove', (e) => {
+                const posX = e.clientX;
+                const posY = e.clientY;
+
+                cursor.style.left = `${posX}px`;
+                cursor.style.top = `${posY}px`;
+
+                cursorOutline.animate({
+                    left: `${posX}px`,
+                    top: `${posY}px`
+                }, { duration: 500, fill: "forwards" });
+            });
+
+            const interactiveElements = document.querySelectorAll('a, button, .project-card, .timeline-content, .skill-card, .terminal-window, input, select, textarea');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    document.body.classList.add('hovered-link');
+                });
+                el.addEventListener('mouseleave', () => {
+                    document.body.classList.remove('hovered-link');
+                });
+            });
+        }
+
+        // Terminal Operations Logic
+        const terminalInput = document.getElementById('terminalInput');
+        const terminalOutput = document.getElementById('terminalOutput');
+        const terminalBody = document.getElementById('terminalBody');
+        const terminalWindow = document.querySelector('.terminal-window');
+
+        if (terminalInput && terminalOutput && terminalBody) {
+            terminalWindow.addEventListener('click', () => {
+                terminalInput.focus();
+            });
+
+            terminalInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const commandText = terminalInput.value.trim();
+                    terminalInput.value = '';
+                    
+                    if (commandText) {
+                        handleTerminalCommand(commandText);
+                    }
+                }
+            });
+        }
+
+        function handleTerminalCommand(cmd) {
+            appendTerminalLine(`jasper@sec-ops:~$ ${cmd}`, 'command');
+            
+            const parts = cmd.toLowerCase().split(' ');
+            const primaryCmd = parts[0];
+            const arg = parts.slice(1).join(' ');
+
+            switch(primaryCmd) {
+                case 'help':
+                    appendTerminalLine(`Available operations:
+  about           Display engineer biographical data and active operational status.
+  skills          Print stylized core technology proficiencies and ratings.
+  scan [target]   Launch automated vulnerability scanner audit on target IP/URL.
+  clear           Flush terminal interface lines.
+  help            Print this operations manifest.`, 'info');
+                    break;
+                case 'about':
+                    appendTerminalLine(`SPECIFICATION MANIFEST:
+---------------------------------------------
+NAME:           Jasper-Brevin
+ROLE:           Full-Stack Engineer & CEH Security Consultant
+CREDENTIALS:    Certified Ethical Hacker (CEH) v12
+STATUS:         ACTIVE / OPEN FOR AUDITS & ENGINEERING CONTRACTS
+LOCATION:       United Kingdom
+SPECIALTIES:    Java, Go, Python, Cloud Ops, Network Pentesting
+---------------------------------------------`, 'system');
+                    break;
+                case 'skills':
+                    appendTerminalLine(`CORE PROFICIENCY METRICS:
+---------------------------------------------
+Golang          [████████████████████] 95%
+Java & Spring   [██████████████████░░] 90%
+Python / SecOps [██████████████████░░] 90%
+Web Pentesting  [████████████████████] 95%
+Network / Cloud [████████████████░░░░] 80%
+---------------------------------------------`, 'system');
+                    break;
+                case 'scan':
+                    if (!arg) {
+                        appendTerminalLine("Error: Missing target parameter. Usage: scan [ip-address/url]", "error");
+                    } else {
+                        simulateScan(arg);
+                    }
+                    break;
+                case 'clear':
+                    terminalOutput.textContent = '';
+                    break;
+                default:
+                    appendTerminalLine(`Shell exception: Operation '${primaryCmd}' unrecognized. Type 'help' for options.`, 'error');
+            }
+            
+            setTimeout(() => {
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+            }, 10);
+        }
+
+        function appendTerminalLine(text, type = '') {
+            const line = document.createElement('div');
+            line.className = `terminal-line ${type}`;
+            line.textContent = text;
+            terminalOutput.appendChild(line);
+        }
+
+        function simulateScan(target) {
+            terminalInput.disabled = true;
+            appendTerminalLine(`[!] Initiating TCP network footprint scan on: ${target}...`, 'info');
+            
+            let progress = 0;
+            const steps = [
+                { time: 600, text: "[*] Footprint scan complete. Host status: ALIVE (rtt: 14.2ms).", type: "system" },
+                { time: 1200, text: "[*] Identified active services:\n  - Port 22/tcp (SSH: OpenSSH 8.9p1 - Key Auth Enforced)\n  - Port 80/tcp (HTTP: Nginx - Redirects to 443)\n  - Port 443/tcp (HTTPS: TLS 1.3 - ECDHE-RSA-AES256-GCM)", type: "system" },
+                { time: 1800, text: "[!] Triggering vulnerability detection suites (OWASP Top 10 mapping)...", type: "info" },
+                { time: 2500, text: "[+] SQL Injection (SQLi) module: PASSED (Zero injection vectors found).", type: "system" },
+                { time: 3000, text: "[+] Cross-Site Scripting (XSS) module: PASSED (Strict Content-Security-Policy identified).", type: "system" },
+                { time: 3500, text: "[!] Running SSL/TLS suite. Verdict: Cryptographic configurations secure.", type: "system" },
+                { time: 4200, text: `[✓] SCAN COMPLETE: 0 high-risk, 0 medium-risk vulnerabilities flagged on ${target}.`, type: "system" }
+            ];
+
+            steps.forEach(step => {
+                setTimeout(() => {
+                    appendTerminalLine(step.text, step.type);
+                    terminalBody.scrollTop = terminalBody.scrollHeight;
+                    if (step === steps[steps.length - 1]) {
+                        terminalInput.disabled = false;
+                        terminalInput.focus();
+                    }
+                }, step.time);
+            });
+        }
+
+        // Projects Filter Logic
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                projectCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'flex';
+                        card.style.opacity = '0';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transition = 'opacity 0.4s ease';
+                        }, 50);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
         });
 
-        // Disable common developer tool keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            // Disable F12
-            if (e.keyCode === 123) {
-                e.preventDefault();
-                return false;
+        // Project Spec Modal and Data
+        const projectSpecs = {
+            'fintech-api': {
+                category: 'Development / Security Gateway',
+                title: 'Hyper-Secure Fintech API',
+                html: `
+                    <p>Designed a high-throughput, secure API gateway that coordinates financial transactions between internal ledger databases and third-party vendors. The system is built entirely in <strong>Go</strong> to maximize request concurrency and minimize processing times.</p>
+                    <h4>Key Architectural Controls</h4>
+                    <ul>
+                        <li><strong>Mutual TLS (mTLS):</strong> Enforces strict client certificate validation at the connection layer to prevent unauthorized client access.</li>
+                        <li><strong>Token-Based Authorization:</strong> Integrated JWT access keys with granular OAuth2-like scope scopes, verifying permissions on a per-endpoint basis.</li>
+                        <li><strong>AES-GCM Encryption:</strong> Sensitive cardholder data is encrypted prior to database insertion using 256-bit AES-GCM with envelope key rotation keys.</li>
+                        <li><strong>Rate-Limiting Shields:</strong> Redis-backed sliding window rate limiters protect the database from layer-7 denial-of-service (DDoS) attempts.</li>
+                    </ul>
+                    <h4>Results & Achievements</h4>
+                    <ul>
+                        <li>Passed third-party independent security auditing without any high-severity findings.</li>
+                        <li>Maintains under 12ms response times under simulated loads of 15,000 requests per second.</li>
+                    </ul>
+                `
+            },
+            'vuln-scanner': {
+                category: 'Security / Penetration Testing',
+                title: 'Automated Vulnerability Scanner',
+                html: `
+                    <p>Developed a high-performance vulnerability auditing tool in <strong>Python</strong>. Built to run reconnaissance routines and perform initial threat modeling sweeps for networked environments.</p>
+                    <h4>Technical Highlights</h4>
+                    <ul>
+                        <li><strong>Concurrently Threaded Ports Sweeper:</strong> Utilizes custom socket connections to rapidly scan targeted blocks (up to 500+ threads) without triggering network intrusion flags.</li>
+                        <li><strong>Service Version Fingerprinting:</strong> Inspects responses (banners) to identify operating systems and service versions, correlating findings with active NVD (National Vulnerability Database) databases.</li>
+                        <li><strong>OWASP Top 10 Auditing modules:</strong> Automatically tests for web-facing exploits including SQL Injections, broken access control, and cross-site scripting vulnerabilities.</li>
+                    </ul>
+                    <h4>Results & Achievements</h4>
+                    <ul>
+                        <li>Reduced initial infrastructure reconnaissance times for client audits from 4 hours down to 9 minutes.</li>
+                        <li>Successfully alerts systems engineers of unpatched vulnerabilities before deployment.</li>
+                    </ul>
+                `
+            },
+            'devsecops-pipeline': {
+                category: 'DevSecOps / Cloud Infrastructure',
+                title: 'Secure DevSecOps Pipeline',
+                html: `
+                    <p>Designed and built a secure continuous integration and delivery pipeline, deploying a microservices architecture to AWS EKS using Infrastructure as Code (IaC).</p>
+                    <h4>Security Pipeline Integrations</h4>
+                    <ul>
+                        <li><strong>Static Application Security Testing (SAST):</strong> Automatic analysis of codebases using SonarQube to identify syntax bugs or hardcoded secrets.</li>
+                        <li><strong>Container Security (Trivy):</strong> Scans Docker base images for CVEs during build stages, blocking builds that introduce critical-grade vulnerabilities.</li>
+                        <li><strong>Sigstore Cosign Validation:</strong> Digitally signs container builds. The Kubernetes cluster leverages Kyverno policies to ensure only verified, signed containers are permitted to launch.</li>
+                    </ul>
+                    <h4>Results & Achievements</h4>
+                    <ul>
+                        <li>Enforced Zero-Trust cluster networking using Calico CNI policies.</li>
+                        <li>Achieved full SOC2 and ISO 27001 compliance standards for automated build structures.</li>
+                    </ul>
+                `
             }
-            // Disable Ctrl+Shift+I (Inspect), Ctrl+Shift+J (Console), Ctrl+Shift+C (Element Select)
-            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
-                e.preventDefault();
-                return false;
+        };
+
+        const projectModal = document.getElementById('projectModal');
+        const modalProjectCategory = document.getElementById('modalProjectCategory');
+        const modalProjectTitle = document.getElementById('modalProjectTitle');
+        const modalProjectBody = document.getElementById('modalProjectBody');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+        function openProjectModal(projectId) {
+            const spec = projectSpecs[projectId];
+            if (spec) {
+                modalProjectCategory.textContent = `[ ${spec.category} ]`;
+                modalProjectTitle.textContent = spec.title;
+                modalProjectBody.innerHTML = spec.html;
+                projectModal.classList.add('active');
+                document.body.classList.add('no-scroll');
             }
-            // Disable Ctrl+U (View Source)
-            if (e.ctrlKey && e.keyCode === 85) {
-                e.preventDefault();
-                return false;
-            }
-            // Disable Ctrl+S (Save Page) and Ctrl+P (Print)
-            if (e.ctrlKey && (e.keyCode === 83 || e.keyCode === 80)) {
-                e.preventDefault();
-                return false;
-            }
-        });
+        }
+
+        if (modalCloseBtn && projectModal) {
+            const closeModal = () => {
+                projectModal.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+            };
+            modalCloseBtn.addEventListener('click', closeModal);
+            projectModal.addEventListener('click', (e) => {
+                if (e.target === projectModal) {
+                    closeModal();
+                }
+            });
+        }
     </script>
 </body>
 </html>
